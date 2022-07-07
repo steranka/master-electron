@@ -8,17 +8,25 @@
     <title>Hello World!</title>
     <style>
       html { font-family: sans-serif; background: #2B2E3B; color: #9FEAF9; }
+      a { color: #9FEAF9}
+      a.visited { color: white }
+      a:hover {
+        color: hotpink;
+      }
     </style>
   </head>
   <body>
 
     <h1>Hello Electron!</h1>
     <p>Download example</p>
-    <a href="https://placekitten.com/150/150">Kitten</a>
-    <a href="https://placekitten.com/150/150" download>Download Kitten</a>
-    <h2><a href="https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_5MG.mp3" download>Download Image</a></h2>
-    <progress value="0" max="100" id="progress"></progress>
+    <a href="https://placekitten.com/150/150">Kitten</a><br/>
+    <a href="https://placekitten.com/150/150" download>Download Kitten</a><br/>
+    <h2><a href="https://file-examples.com/storage/fe2de9ae4662c61a094f3db/2017/11/file_example_MP3_5MG.mp3" download>Download Image</a></h2>
 
+    <progress value="0" max="100" id="progress"></progress>
+    <script>
+      window.progress = document.getElementById('progress')
+    </script>
 
     <script>
       // You can also require other files to run in this process
