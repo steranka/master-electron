@@ -1,5 +1,5 @@
 // Modules
-const {app, BrowserWindow, globalShortcut} = require('electron')
+const {app, BrowserWindow, globalShortcut, screen} = require('electron')
 const windowStateKeeper = require('electron-window-state');
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -56,6 +56,27 @@ function createWindow () {
 
 // Add the functionality of the lesson in this function
 function runLesson(){
+  let displays = screen.getAllDisplays()
+  console.log('All displays: ', displays);
+
+  let primaryDisplay = screen.getPrimaryDisplay()
+
+  console.log(`${displays[0].size.width} x ${displays[0].size.height}`)
+  console.log(`${displays[0].bounds.x}, ${displays[0].bounds.y}`)
+  // console.log(`${displays[1].size.width} x ${displays[1].size.height}`)
+  // console.log(`${displays[1].bounds.x}, ${displays[1].bounds.y}`)
+
+  screen.on( 'display-metrics-changed', (e, display, metricsChanged) => {
+    console.log('display-metrics-changed', metricsChanged);
+  })
+
+  // let counter = 0;
+  // let cancelInterval = setInterval( () => {
+  //   console.log( screen.getCursorScreenPoint() )
+  //   if (++counter > 60) {
+  //     clearInterval(cancelInterval);
+  //   }
+  // }, 500)
 
 }
 
