@@ -15,9 +15,44 @@
     <h1>Hello Electron!</h1>
     <p>Build cross-platform desktop apps with JavaScript, HTML, and CSS</p>
 
+    <img src="https://placekitten.com/450/300" alt="">
+    <br>
+    <button onclick="zoomUp()">Increase Zoom</button>
+    <button onclick="zoomDown()">Decrease Zoom</button>
+    <button onclick="zoomReset()">Reset Zoom</button>
+    <div>
+      Zoom Factor = <span id="ZoomFactorId"></span><br/>
+      Zoom Level = <span id="ZoomLevelId"></span><br/>
+    </div>
+
     <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
+
+      const { webFrame } = require('electron')
+      function updatePage(){
+        let tmpSpan = document.getElementById('ZoomFactorId');
+        tmpSpan.innerText = webFrame.getZoomFactor();
+        tmpSpan = document.getElementById('ZoomLevelId');
+        tmpSpan.innerText = webFrame.getZoomLevel();
+      }
+
+      const zoomUp = () => {
+        webFrame.setZoomLevel( webFrame.getZoomLevel() + 1 )
+        updatePage();
+      }
+
+      const zoomDown = () => {
+        webFrame.setZoomLevel( webFrame.getZoomLevel() - 1 )
+        updatePage();
+      }
+
+      const zoomReset = () => {
+        webFrame.setZoomLevel( 0 )
+        updatePage();
+      }
+
+      updatePage();
+      console.log('webFrame.getResourceUsage() is ', webFrame.getResourceUsage() )
+
     </script>
   </body>
 </html>
