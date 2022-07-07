@@ -15,8 +15,6 @@ function createWindow () {
     defaultHeight: 800,
   });
 
-
-
   mainWindow = new BrowserWindow({
     width: winState.width,
     height: winState.height,
@@ -54,8 +52,66 @@ function createWindow () {
   })
 }
 
+function runLesson(){
+  let registerSuccess;
+  // globalShortcut.register('CommandOrControl+G', () => {
+  //   console.log('User pressed G with a combination key')
+  //   // globalShortcut.unregister('CommandOrControl+G')
+  // })
+  registerSuccess = globalShortcut.register('Shift+G', () => {
+    console.log('User pressed Shift+G')
+    // globalShortcut.unregister('CommandOrControl+G')
+  });
+  if (!registerSuccess) {
+    console.log('Registration of Shift+G failed');
+  }
+
+  registerSuccess = globalShortcut.register('Ctrl+G', () => {
+    console.log('User pressed Ctrl+G')
+    // globalShortcut.unregister('CommandOrControl+G')
+  })
+  if (!registerSuccess) {
+    console.log('Registration of Ctrl+G failed');
+  }
+
+  registerSuccess = globalShortcut.register('g', (e) => {
+    console.log('User pressed g', e);
+    // globalShortcut.unregister('CommandOrControl+G')
+  })
+  if (!registerSuccess) {
+    console.log('Registration of g failed');
+  }
+
+  registerSuccess = globalShortcut.register('Alt+G', (e) => {
+    console.log('User pressed Alt+G', e);
+    // globalShortcut.unregister('CommandOrControl+G')
+  })
+  if (!registerSuccess) {
+    console.log('Registration of Alt+G failed');
+  }
+
+  registerSuccess = globalShortcut.register('Ctrl+Alt+Shift+G', (e) => {
+    console.log('User pressed Ctrl+Alt+Shift+G', e);
+    // globalShortcut.unregister('CommandOrControl+G')
+  })
+  if (!registerSuccess) {
+    console.log('Registration of Ctrl+Alt+Shift+G failed');
+  }
+
+  registerSuccess = globalShortcut.register('Ctrl+Shift+G', (e) => {
+    console.log('User pressed Ctrl+Shift+G', e);
+    // globalShortcut.unregister('CommandOrControl+G')
+  })
+  if (!registerSuccess) {
+    console.log('Registration of Ctrl+Shift+G failed');
+  }
+}
+
 // Electron `app` is ready
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow();
+  runLesson();
+});
 
 // Quit when all windows are closed - (Not macOS - Darwin)
 app.on('window-all-closed', () => {
