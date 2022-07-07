@@ -1,5 +1,5 @@
 // Modules
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, globalShortcut} = require('electron')
 const windowStateKeeper = require('electron-window-state');
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -34,10 +34,19 @@ function createWindow () {
   winState.manage(mainWindow);
 
   // Load index.html into the new BrowserWindow
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('index.html');
 
-  // Open DevTools - Remove for PRODUCTION!
-  mainWindow.webContents.openDevTools();
+  // Allow Ctrl+F12 to open or close devtools, NOTE: I tried using F12 and that failed to register
+  let registerSuccess = globalShortcut.register('Ctrl+F12', () => {
+    if (mainWindow.webContents.isDevToolsOpened()){
+      mainWindow.webContents.closeDevTools();
+    } else {
+      mainWindow.webContents.openDevTools();
+    }
+  })
+  if (!registerSuccess) {
+    console.log('Registration of Ctrl+F12 failed');
+  }
 
   // Listen for window being closed
   mainWindow.on('closed',  () => {
