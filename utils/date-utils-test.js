@@ -1,8 +1,8 @@
 const assert = require('node:assert/strict');
 const { parseStringToDate, replaceParseWithDate, formatAsYYYYMMDD_HHMMSS, formatAsYYYY_MM_DD_HHMMSS, fixDate } = require('./date-utils');
-
+const { readFile } = require('./file-utils');
 let inputStr, outputStr;
-inputStr = "20220709 21:13:14 is a test";
+inputStr = "test 2015/11/12 19-23-22 Fall Sports Banquet IMG_9343.jpg";
 let result = parseStringToDate(inputStr);
 let newString;
 if (result){
@@ -50,3 +50,11 @@ assert(fixDate(inputStr,formatAsYYYY_MM_DD_HHMMSS) === "2015-11-12 Fall Sports B
 // p(patternYYYYMMDD.test("2022/0102"))
 // p(patternYYYYMMDD.test("202201/02"))
 // p(patternYYYYMMDD.test("2022/01-02"))
+
+// Read all of the example file names and process them
+readFile('../ex-filenames.data', (line, lineCount, byteCount, stopReadingFunc  ) => {
+  let result = fixDate(line,formatAsYYYY_MM_DD_HHMMSS)
+  console.log(' INPUT: ' + line);
+  console.log('OUTPUT: ' + result);
+});
+

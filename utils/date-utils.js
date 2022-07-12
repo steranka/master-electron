@@ -138,7 +138,7 @@ function _multiYYYYMMDD_HHMMSS(strDate, datePatternName){
       newDateString += " " + timePart.substring(0,2) + ":" + timePart.substring(2,4) + ":" + timePart.substring(4,6);
     } else {
       // time part might have dashes as delim due to ACDSEE screwup on changing dates, so fix it
-      newDateString += " " + timePart.replace('-',':'); // Does nothing if string already has colons
+      newDateString += " " + timePart.replaceAll('-',':'); // Does nothing if string already has colons
     }
   } else {
     newDateString += " 00:00:00"; // when time is missing use midnight as time
