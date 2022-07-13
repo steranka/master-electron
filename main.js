@@ -1,5 +1,5 @@
 // Modules
-const {app, BrowserWindow, globalShortcut} = require('electron')
+const {app, BrowserWindow, globalShortcut, dialog, ipcMain} = require('electron')
 const windowStateKeeper = require('electron-window-state');
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -58,6 +58,26 @@ function createWindow () {
 function runLesson(){
 
 }
+
+async function askFruit () {
+
+  let fruits = ['Apple', 'Orange', 'Grape']
+
+  let choice = await dialog.showMessageBox({
+    message: 'Pick a fruit:',
+    buttons: fruits
+  })
+
+  return fruits[choice.response]
+}
+
+ipcMain.handle('ask-fruit', e => {
+
+  return askFruit()
+
+})
+
+
 
 // Electron `app` is ready
 app.on('ready', () => {
