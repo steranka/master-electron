@@ -27,7 +27,8 @@ function createWindow () {
       // Disable 'contextIsolation' to allow 'nodeIntegration'
       // 'contextIsolation' defaults to "true" as from Electron v12
       contextIsolation: false,
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   })
 
@@ -35,6 +36,7 @@ function createWindow () {
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile('index.html');
+  mainWindow.webContents.openDevTools();
 
   // Allow Ctrl+F12 to open or close devtools, NOTE: I tried using F12 and that failed to register
   let registerSuccess = globalShortcut.register('Ctrl+F12', () => {
