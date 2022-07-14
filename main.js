@@ -1,27 +1,34 @@
 // Modules
-const {app, BrowserWindow, globalShortcut} = require('electron')
-const windowStateKeeper = require('electron-window-state');
+const {app, BrowserWindow, ipcMain} = require('electron')
+const windowStateKeeper = require('electron-window-state')
+const readItem = require('./readItem')
+const appMenu = require('./menu')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+// Listen for new item request
+ipcMain.on('new-item', (e, itemUrl) => {
+
+  // Get new item and send back to renderer
+  readItem( itemUrl, item => {
+    e.sender.send('new-item-success', item)
+  })
+})
+
 // Create a new BrowserWindow when `app` is ready
 function createWindow () {
 
-  // When creating Browser window use the window state data
-  let winState = windowStateKeeper( {
-    defaultWidth: 1000,
-    defaultHeight: 800,
-  });
-
-
+  // Win state keeper
+  let state = windowStateKeeper({
+    defaultWidth: 500, defaultHeight: 650
+  })
 
   mainWindow = new BrowserWindow({
-    width: winState.width,
-    height: winState.height,
-    x: winState.x,
-    y: winState.y,
+    x: state.x, y: state.y,
+    width: state.width, height: state.height,
+    minWidth: 350, maxWidth: 650, minHeight: 300,
     webPreferences: {
       // --- !! IMPORTANT !! ---
       // Disable 'contextIsolation' to allow 'nodeIntegration'
@@ -31,22 +38,17 @@ function createWindow () {
     }
   })
 
-  winState.manage(mainWindow);
+  // Create main app menu
+  appMenu(mainWindow.webContents)
 
   // Load index.html into the new BrowserWindow
-  mainWindow.loadFile('index.html');
+  mainWindow.loadFile('renderer/main.html')
 
-  // Allow Ctrl+F12 to open or close devtools, NOTE: I tried using F12 and that failed to register
-  let registerSuccess = globalShortcut.register('Ctrl+F12', () => {
-    if (mainWindow.webContents.isDevToolsOpened()){
-      mainWindow.webContents.closeDevTools();
-    } else {
-      mainWindow.webContents.openDevTools();
-    }
-  })
-  if (!registerSuccess) {
-    console.log('Registration of Ctrl+F12 failed');
-  }
+  // Manage new window state
+  state.manage(mainWindow)
+
+  // Open DevTools - Remove for PRODUCTION!
+  mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
   mainWindow.on('closed',  () => {
@@ -54,16 +56,8 @@ function createWindow () {
   })
 }
 
-// Add the functionality of the lesson in this function
-function runLesson(){
-
-}
-
 // Electron `app` is ready
-app.on('ready', () => {
-  createWindow();
-  runLesson();
-});
+app.on('ready', createWindow)
 
 // Quit when all windows are closed - (Not macOS - Darwin)
 app.on('window-all-closed', () => {
