@@ -14,7 +14,26 @@
 
     <h1>Hello Electron!</h1>
     <p>Build cross-platform desktop apps with JavaScript, HTML, and CSS</p>
+    <h1>App is: <u id="status"></u></h1>
 
+    <script>
+
+      const setStatus = status => {
+        const statusNode = document.getElementById('status')
+        statusNode.innerText = status ? 'Online' : 'Offline'
+      }
+
+      setStatus( navigator.onLine )
+
+      window.addEventListener( 'online', e => {
+        setStatus(true)
+      })
+
+      window.addEventListener( 'offline', e => {
+        setStatus(false)
+      })
+
+    </script>
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
