@@ -1,5 +1,5 @@
 // Modules
-const {app, BrowserWindow, globalShortcut} = require('electron')
+const {app, BrowserWindow, globalShortcut, shell} = require('electron')
 const windowStateKeeper = require('electron-window-state');
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -56,6 +56,9 @@ function createWindow () {
 
 // Add the functionality of the lesson in this function
 function runLesson(){
+  console.log(process.versions);
+  console.log(process.getSystemVersion());
+  // shell.openPath(`${__dirname}/splash.png`);
 
 }
 
