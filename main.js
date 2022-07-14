@@ -54,8 +54,16 @@ function createWindow () {
   })
 }
 
+// Add the functionality of the lesson in this function
+function runLesson(){
+
+}
+
 // Electron `app` is ready
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow();
+  runLesson();
+});
 
 // Quit when all windows are closed - (Not macOS - Darwin)
 app.on('window-all-closed', () => {
