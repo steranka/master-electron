@@ -15,9 +15,20 @@
     <h1>Hello Electron!</h1>
     <p>Build cross-platform desktop apps with JavaScript, HTML, and CSS</p>
 
+    <p>Using Node.js <script>document.write( versions.node )</script> and Electron <script>document.write( versions.electron )</script></p>
+
+    <br><textarea id="content" rows="8" cols="80"></textarea>
+    <br><button id="save" onclick="saveText()">Save Content</button>
+
     <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
+
+      const saveText = e => {
+
+        const text = document.getElementById('content').value
+
+        writeToFile( text )
+      }
+
     </script>
   </body>
 </html>
